@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/probe"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/soot"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.ibm.wala.core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.ibm.wala.core.tests"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.ibm.wala.shrike"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.ibm.wala.util"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
