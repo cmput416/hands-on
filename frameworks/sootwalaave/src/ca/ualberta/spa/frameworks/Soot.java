@@ -33,6 +33,7 @@ public class Soot {
 		String placeholder = Paths.get("hello", "averroes", "placeholder-lib.jar").toAbsolutePath().toString();
 
 		String mainClass = "ca.ualberta.spa.frameworks.examples.Coll";
+//		String mainClass = "ca.ualberta.spa.frameworks.examples.HelloWorld";
 		boolean isAverroes = false;
 
 		/* Reset Soot */
@@ -63,8 +64,8 @@ public class Soot {
 
 		System.out.println(Scene.v().getMainMethod().retrieveActiveBody());
 		/* Run the call graph transformer */
-		applyCHA();
-//		applyRTA();
+//		applyCHA();
+		applyRTA();
 //		applyVTA();
 //		applySpark(isAverroes);
 
