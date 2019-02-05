@@ -61,10 +61,11 @@ public class Soot {
 		/* Setting entry points (i.e., main method of the main class) */
 		if(isAverroes) Scene.v().setEntryPoints(entryPoints());
 
+		System.out.println(Scene.v().getMainMethod().retrieveActiveBody());
 		/* Run the call graph transformer */
-//		applyCHA();
+		applyCHA();
 //		applyRTA();
-		applyVTA();
+//		applyVTA();
 //		applySpark(isAverroes);
 
 		/* Retrieve the call graph */

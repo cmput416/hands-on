@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import com.ibm.wala.classLoader.IMethod;
 import com.ibm.wala.classLoader.JarFileModule;
-import com.ibm.wala.core.tests.callGraph.CallGraphTestUtil;
+import com.ibm.wala.classLoader.Language;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
 import com.ibm.wala.ipa.callgraph.AnalysisCacheImpl;
 import com.ibm.wala.ipa.callgraph.AnalysisOptions;
@@ -44,6 +44,8 @@ import com.ibm.wala.util.debug.Assertions;
 import com.ibm.wala.util.strings.Atom;
 
 public class Wala {
+	private static String REGRESSION_EXCLUSIONS = "Java60RegressionExclusions.txt";
+	
 	public static void main(String[] args) throws IOException, IllegalArgumentException, InvalidClassFileException,
 			ClassHierarchyException, CallGraphBuilderCancelException {
 		long start = System.nanoTime();
@@ -55,14 +57,14 @@ public class Wala {
 		String ave = Paths.get("hello", "averroes", "averroes-lib-class.jar").toAbsolutePath().toString();
 		String placeholder = Paths.get("hello", "averroes", "placeholder-lib.jar").toAbsolutePath().toString();
 
-		String mainClass = "Lca/ualberta/spa/frameworks/examples/HelloWorld";
-		boolean isAverroes = true;
+		String mainClass = "Lca/ualberta/spa/frameworks/examples/Coll";
+		boolean isAverroes = false;
 
 		// 1. Set the classpath
 		String classpath = bin + File.pathSeparator + jre;
 
 		// 2. Set the exclusion file (similar to Soot's -exclude)
-		String exclusionFile = Wala.class.getClassLoader().getResource(CallGraphTestUtil.REGRESSION_EXCLUSIONS)
+		String exclusionFile = Wala.class.getClassLoader().getResource(REGRESSION_EXCLUSIONS)
 				.getPath();
 
 		// 3. Set the analysis scope => hierarchy
@@ -84,7 +86,7 @@ public class Wala {
 		// 6. Callgraph builder
 		SSAPropagationCallGraphBuilder builder = isAverroes
 				? makeZeroOneCFABuilder(options, new AnalysisCacheImpl(), cha, scope, null, null)
-				: Util.makeZeroOneCFABuilder(options, new AnalysisCacheImpl(), cha, scope, null, null);
+				: Util.makeZeroOneCFABuilder(Language.JAVA, options, new AnalysisCacheImpl(), cha, scope, null, null);
 
 		long end = System.nanoTime();
 		BasicCallGraph<?> cg = (BasicCallGraph<?>) builder.makeCallGraph(options, null);
@@ -103,7 +105,7 @@ public class Wala {
 		}
 		Util.addDefaultSelectors(options, cha);
 
-		return ZeroXCFABuilder.make(cha, options, cache, customSelector, customInterpreter,
+		return ZeroXCFABuilder.make(Language.JAVA, cha, options, cache, customSelector, customInterpreter,
 				ZeroXInstanceKeys.ALLOCATIONS | ZeroXInstanceKeys.SMUSH_MANY | ZeroXInstanceKeys.SMUSH_PRIMITIVE_HOLDERS
 						| ZeroXInstanceKeys.SMUSH_STRINGS | ZeroXInstanceKeys.SMUSH_THROWABLES);
 	}
