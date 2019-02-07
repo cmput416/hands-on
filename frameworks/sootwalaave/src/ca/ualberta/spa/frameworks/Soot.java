@@ -32,9 +32,9 @@ public class Soot {
 		String ave = Paths.get("hello", "averroes", "averroes-lib-class.jar").toAbsolutePath().toString();
 		String placeholder = Paths.get("hello", "averroes", "placeholder-lib.jar").toAbsolutePath().toString();
 
-		String mainClass = "ca.ualberta.spa.frameworks.examples.Coll";
-//		String mainClass = "ca.ualberta.spa.frameworks.examples.HelloWorld";
-		boolean isAverroes = false;
+//		String mainClass = "ca.ualberta.spa.frameworks.examples.Coll";
+		String mainClass = "ca.ualberta.spa.frameworks.examples.HelloWorld";
+		boolean isAverroes = true;
 
 		/* Reset Soot */
 		G.reset();
@@ -42,12 +42,15 @@ public class Soot {
 		/* Set some soot parameters */
 		// Set input classes
 		Options.v().classes().add(mainClass);
-		if(isAverroes) Options.v().classes().add("averroes.Library");
+		if (isAverroes)
+			Options.v().classes().add("averroes.Library");
 
 		// Set the class path
-		if(isAverroes) Options.v().set_soot_classpath(bin + File.pathSeparator + ave + File.pathSeparator + placeholder);
-		else Options.v().set_soot_classpath(bin + File.pathSeparator + jre);
-		
+		if (isAverroes)
+			Options.v().set_soot_classpath(bin + File.pathSeparator + ave + File.pathSeparator + placeholder);
+		else
+			Options.v().set_soot_classpath(bin + File.pathSeparator + jre);
+
 		System.out.println(Options.v().soot_classpath());
 		// Set the main class
 		Options.v().set_main_class(mainClass);
@@ -60,14 +63,15 @@ public class Soot {
 		Scene.v().setMainClassFromOptions(); // has to be called after loading the classes
 
 		/* Setting entry points (i.e., main method of the main class) */
-		if(isAverroes) Scene.v().setEntryPoints(entryPoints());
+		if (isAverroes)
+			Scene.v().setEntryPoints(entryPoints());
 
 		System.out.println(Scene.v().getMainMethod().retrieveActiveBody());
 		/* Run the call graph transformer */
 //		applyCHA();
-		applyRTA();
+//		applyRTA();
 //		applyVTA();
-//		applySpark(isAverroes);
+		applySpark(isAverroes);
 
 		/* Retrieve the call graph */
 		dumpCG();
@@ -116,7 +120,7 @@ public class Soot {
 		opts.put("vta", "true");
 		SparkTransformer.v().transform("", opts);
 	}
-	
+
 	/**
 	 * Run the default call graph analysis from SPARK.
 	 * 
@@ -126,7 +130,8 @@ public class Soot {
 		Map<String, String> opts = new HashMap<String, String>(PhaseOptions.v().getPhaseOptions("cg.spark"));
 		opts.put("enabled", "true");
 		opts.put("verbose", "true");
-		if (isAverroes) opts.put("simulate-natives", "false"); // this should only be false for SparkAve
+		if (isAverroes)
+			opts.put("simulate-natives", "false"); // this should only be false for SparkAve
 		SparkTransformer.v().transform("", opts);
 	}
 
@@ -172,7 +177,7 @@ public class Soot {
 		System.out.println();
 		System.out.println();
 	}
-	
+
 	/**
 	 * Format the given number to add a comma each 3 digits.
 	 * 
