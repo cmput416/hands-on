@@ -37,6 +37,7 @@ public class Main {
 
 		/* Reset Soot */
 		G.reset();
+		long start = System.currentTimeMillis();
 
 		/* Set some soot parameters */
 		// Set input classes
@@ -66,6 +67,10 @@ public class Main {
 //		applyRTA();
 //		applyVTA();
 		applySpark(isAverroes);
+		long end = System.currentTimeMillis();
+		long time = (end - start);
+		
+		System.out.println(time + " milliseconds.");
 
 		/* Retrieve the call graph */
 		dumpCG();
